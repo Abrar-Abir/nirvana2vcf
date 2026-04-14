@@ -23,7 +23,10 @@ classifiers = [
 dependencies = ["orjson>=3.9"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0"]
+norm = ["pysam>=0.22"]
+bgzip = ["pysam>=0.22"]
+full = ["pysam>=0.22"]
+dev = ["pytest>=7.0", "pysam>=0.22"]
 
 [project.urls]
 Homepage = "https://github.com/Abrar-Abir/nirvana2vcf"

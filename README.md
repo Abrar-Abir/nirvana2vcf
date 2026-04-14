@@ -4,11 +4,11 @@ Convert [Nirvana/Illumina Connected Annotations](https://illumina.github.io/Nirv
 
 ## Features
 
-- Pure Python, zero external dependencies at runtime
+- Pure Python, zero required runtime dependencies (`pysam` is optional, only for FASTA-based normalization and bgzip/tabix output)
 - Streaming pipeline — processes one position at a time, no full-file load into memory
-- Reads `.json` and `.json.gz` input
+- Reads `.json` and `.json.gz` input; writes plain VCF or bgzipped `.vcf.gz` (with optional tabix index)
 - Supports GRCh37 and GRCh38 assemblies (auto-detected from Nirvana header)
-- Allele normalization — trims shared prefix/suffix to minimal VCF representation (enabled by default)
+- Allele normalization — trims shared prefix/suffix to minimal VCF representation (enabled by default); with `--reference`, additionally left-shifts indels through repeats (matches `bcftools norm`)
 - Multi-allelic decomposition — splits multi-allelic sites into biallelic rows, like `bcftools norm -m-` (`--decompose`)
 - VEP-style CSQ field with per-transcript annotations
 - Annotations: gnomAD, ClinVar, SpliceAI, REVEL, DANN, GERP, phyloP, 1000 Genomes, TOPMed
@@ -16,7 +16,8 @@ Convert [Nirvana/Illumina Connected Annotations](https://illumina.github.io/Nirv
 ## Installation
 
 ```bash
-pip install -e .
+pip install -e .                  # core (orjson only)
+pip install -e ".[full]"          # adds pysam for --reference / .vcf.gz / --tabix
 ```
 
 ## Usage
@@ -45,6 +46,15 @@ nirvana2vcf -i input.json.gz -o output.vcf --decompose
 
 # Decompose without normalization (keep raw Nirvana alleles)
 nirvana2vcf -i input.json.gz -o output.vcf --decompose --no-normalize
+
+# Reference-based left-alignment of indels (bcftools-norm parity, requires pysam + indexed FASTA)
+nirvana2vcf -i input.json.gz -o output.vcf --reference GRCh38.fa
+
+# Bgzipped output with a tabix index (requires pysam)
+nirvana2vcf -i input.json.gz -o output.vcf.gz --tabix
+
+# Show progress on long runs (every 10,000 positions, plus a final summary)
+nirvana2vcf -i input.json.gz -o output.vcf --verbose
 ```
 
 ## Mode Reference
@@ -53,7 +63,9 @@ nirvana2vcf -i input.json.gz -o output.vcf --decompose --no-normalize
 
 Enabled by default. Trims shared prefix and suffix bases from REF and ALT alleles to produce the
 minimal VCF representation, adjusting POS accordingly. This matches what tools like `bcftools norm`
-and `vt normalize` do for left-trimming (though without reference-based left-alignment).
+and `vt normalize` do for left-trimming. Pass `--reference path/to/genome.fa` (requires the
+`[full]` extra and an indexed FASTA) to additionally left-shift indels through homopolymer/STR
+repeats — the result is then equivalent to `bcftools norm -f genome.fa`.
 
 Nirvana sometimes emits redundant flanking bases — for example, when representing an insertion
 or deletion relative to a longer context sequence.

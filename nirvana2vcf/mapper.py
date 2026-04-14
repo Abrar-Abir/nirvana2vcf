@@ -2,7 +2,7 @@
 
 import re
 from dataclasses import replace
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from .constants import CSQ_FIELDS
 from .models import (
@@ -65,12 +65,17 @@ def _per_allele_values(
 
 
 def normalize_alleles(
-    pos: int, ref: str, alts: List[str]
+    pos: int, ref: str, alts: List[str],
+    chrom: Optional[str] = None,
+    ref_fetcher: Optional[Callable[[str, int, int], str]] = None,
 ) -> Tuple[int, str, List[str]]:
     """Trim shared prefix/suffix from REF and all ALTs to minimal VCF representation.
 
     Phase 1: Right-trim shared suffix (all alleles must share the trailing base).
     Phase 2: Left-trim shared prefix (keeping at least 1 base), adjusting POS.
+    Phase 3: When ``ref_fetcher`` is supplied, left-shift indels through repeats
+        (matches ``bcftools norm`` behavior). ``ref_fetcher(chrom, start, end)``
+        uses 0-based half-open coordinates.
 
     Symbolic alleles (<DEL>, etc.), reference-only (ALT='.'), and spanning
     deletions ('*') are left untouched.
@@ -111,6 +116,32 @@ def normalize_alleles(
         for idx in real_indices:
             new_alts[idx] = new_alts[idx][1:]
         pos += 1
+
+    # Phase 3: reference-based left-shift (bcftools-norm parity).
+    # Algorithm (Tan, Abecasis, Kang 2015): repeatedly extend by one reference
+    # base on the left, then right-trim if the new trailing base is shared by
+    # all alleles. Stops when the trailing bases diverge — i.e., the variant
+    # is fully left-aligned. Pure SNVs and MNVs naturally stop after one step.
+    # Skip non-variants (REF == every real ALT) — they'd shift indefinitely.
+    if (
+        ref_fetcher is not None and chrom is not None
+        and any(new_alts[i] != new_ref for i in real_indices)
+    ):
+        while pos > 1:
+            prev = ref_fetcher(chrom, pos - 2, pos - 1)
+            if not prev:
+                break
+            ext_ref = prev + new_ref
+            ext_alts = list(new_alts)
+            for idx in real_indices:
+                ext_alts[idx] = prev + new_alts[idx]
+            last = ext_ref[-1]
+            if any(ext_alts[i][-1] != last for i in real_indices):
+                break
+            new_ref = ext_ref[:-1]
+            for idx in real_indices:
+                new_alts[idx] = ext_alts[idx][:-1]
+            pos -= 1
 
     return pos, new_ref, new_alts
 
@@ -532,6 +563,7 @@ def map_position_to_vcf_record(
     csq_only: bool = False,
     include_samples: bool = True,
     normalize: bool = False,
+    ref_fetcher: Optional[Callable[[str, int, int], str]] = None,
 ) -> Dict[str, Any]:
     """Convert a Position into a VCF record dict.
 
@@ -539,7 +571,9 @@ def map_position_to_vcf_record(
     and optionally FORMAT, samples.
 
     When normalize=True, REF/ALT alleles are trimmed to minimal VCF
-    representation (shared prefix/suffix removed, POS adjusted).
+    representation (shared prefix/suffix removed, POS adjusted). When
+    ``ref_fetcher`` is also provided, indels are additionally left-shifted
+    through repeats (matches ``bcftools norm`` behavior).
     """
     # Apply allele normalization if requested
     vcf_pos = position.position
@@ -549,7 +583,8 @@ def map_position_to_vcf_record(
 
     if normalize and vcf_alts:
         vcf_pos, vcf_ref, vcf_alts = normalize_alleles(
-            vcf_pos, vcf_ref, vcf_alts
+            vcf_pos, vcf_ref, vcf_alts,
+            chrom=position.chromosome, ref_fetcher=ref_fetcher,
         )
         if vcf_alts != list(position.alt_alleles):
             alt_allele_map = dict(zip(position.alt_alleles, vcf_alts))

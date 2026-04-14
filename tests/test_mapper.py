@@ -445,6 +445,124 @@ class TestNormalizeAlleles:
         assert alts == ["G"]
 
 
+class TestNormalizeAllelesWithReference:
+    """Phase 3 reference-based left-shifting (bcftools-norm parity)."""
+
+    @staticmethod
+    def _make_fetcher(ref_seq, chrom_name="chr1"):
+        """Return a 0-based half-open fetcher backed by an in-memory string."""
+        def fetcher(chrom, start, end):
+            if chrom != chrom_name:
+                return ""
+            if start < 0 or end > len(ref_seq):
+                return ""
+            return ref_seq[start:end]
+        return fetcher
+
+    def test_homopolymer_insertion_left_shifts(self):
+        # ref: A A A A A A A (1-based positions 1..7)
+        # raw: insertion of A at pos 7 (REF=A, ALT=AA) → should shift to pos 1
+        fetcher = self._make_fetcher("AAAAAAA")
+        pos, ref, alts = normalize_alleles(
+            7, "A", ["AA"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 1
+        assert ref == "A"
+        assert alts == ["AA"]
+
+    def test_homopolymer_deletion_left_shifts(self):
+        # ref: A A A A A A A. Deletion of one A at pos 6 (REF=AA, ALT=A) → pos 1
+        fetcher = self._make_fetcher("AAAAAAA")
+        pos, ref, alts = normalize_alleles(
+            6, "AA", ["A"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 1
+        assert ref == "AA"
+        assert alts == ["A"]
+
+    def test_str_dinucleotide_left_shifts(self):
+        # ref: G A G A G A (positions 1..6). Insertion of "GA" at pos 6.
+        # Right-most VCF: REF=A (pos 6), ALT=AGA. Left-most: REF=G (pos 1), ALT=GAG.
+        fetcher = self._make_fetcher("GAGAGA")
+        pos, ref, alts = normalize_alleles(
+            6, "A", ["AGA"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 1
+        assert ref == "G"
+        assert alts == ["GAG"]
+
+    def test_already_left_aligned_no_change(self):
+        # ref: T T A C G T. Insertion of G at pos 3 (REF=A, ALT=AG).
+        # The inserted base G is not present anywhere in the surrounding
+        # left context, so the trailing-base check fails immediately.
+        fetcher = self._make_fetcher("TTACGT")
+        pos, ref, alts = normalize_alleles(
+            3, "A", ["AG"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 3
+        assert ref == "A"
+        assert alts == ["AG"]
+
+    def test_snv_unchanged(self):
+        # SNVs cannot be shifted: the trailing-base check fails immediately.
+        fetcher = self._make_fetcher("ACGTACGT")
+        pos, ref, alts = normalize_alleles(
+            5, "A", ["G"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 5
+        assert ref == "A"
+        assert alts == ["G"]
+
+    def test_left_edge_no_underflow(self):
+        # Insertion at pos 1 in homopolymer — already at left edge, must not crash.
+        fetcher = self._make_fetcher("AAAAA")
+        pos, ref, alts = normalize_alleles(
+            1, "A", ["AA"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 1
+        assert ref == "A"
+        assert alts == ["AA"]
+
+    def test_symbolic_allele_skipped(self):
+        # Symbolic ALTs are excluded from real_indices → Phase 3 has nothing to do.
+        fetcher = self._make_fetcher("AAAAA")
+        pos, ref, alts = normalize_alleles(
+            3, "N", ["<DEL>"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 3
+        assert ref == "N"
+        assert alts == ["<DEL>"]
+
+    def test_off_chromosome_fetch_stops_loop(self):
+        # If the fetcher returns "" (e.g. unknown contig), Phase 3 stops cleanly.
+        def fetcher(chrom, start, end):
+            return ""
+        pos, ref, alts = normalize_alleles(
+            100, "A", ["AA"], chrom="chrUnknown", ref_fetcher=fetcher,
+        )
+        assert pos == 100
+        assert ref == "A"
+        assert alts == ["AA"]
+
+    def test_no_ref_fetcher_falls_back_to_trim_only(self):
+        # Without ref_fetcher, behavior matches the prior trim-only path.
+        pos, ref, alts = normalize_alleles(7, "A", ["AA"])
+        assert pos == 7
+        assert ref == "A"
+        assert alts == ["AA"]
+
+    def test_multi_allelic_left_shift(self):
+        # ref: A A A A A. Two ALTs that both share trailing A with REF.
+        # REF=A (pos 5), ALTs=[AA, AAA] → should shift while both trailing A's match.
+        fetcher = self._make_fetcher("AAAAA")
+        pos, ref, alts = normalize_alleles(
+            5, "A", ["AA", "AAA"], chrom="chr1", ref_fetcher=fetcher,
+        )
+        assert pos == 1
+        assert ref == "A"
+        assert alts == ["AA", "AAA"]
+
+
 class TestNormalizationInRecord:
     """Tests for normalization applied through map_position_to_vcf_record()."""
 

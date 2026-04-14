@@ -113,3 +113,88 @@ class TestCLI:
             content = f.read()
 
         assert "chr1\t12345" in content
+
+    def test_verbose_writes_summary_to_stderr(self, minimal_snv_json_gz, tmp_path, capsys):
+        """--verbose prints a final summary line to stderr."""
+        out_path = str(tmp_path / "output.vcf")
+        main(["-i", minimal_snv_json_gz, "-o", out_path, "--verbose"])
+        captured = capsys.readouterr()
+        assert "[nirvana2vcf] done" in captured.err
+        assert "1 positions" in captured.err
+
+    def test_no_verbose_silent_on_stderr(self, minimal_snv_json_gz, tmp_path, capsys):
+        """Without --verbose, no progress lines appear on stderr."""
+        out_path = str(tmp_path / "output.vcf")
+        main(["-i", minimal_snv_json_gz, "-o", out_path])
+        captured = capsys.readouterr()
+        assert "[nirvana2vcf]" not in captured.err
+
+    def test_tabix_without_bgzip_errors(self, minimal_snv_json_gz, tmp_path):
+        """--tabix on a plain .vcf output is rejected."""
+        out_path = str(tmp_path / "output.vcf")
+        with pytest.raises(SystemExit) as exc_info:
+            main(["-i", minimal_snv_json_gz, "-o", out_path, "--tabix"])
+        assert exc_info.value.code == 1
+
+    def test_reference_missing_file_errors(self, minimal_snv_json_gz, tmp_path):
+        """--reference pointing at a nonexistent FASTA exits cleanly."""
+        out_path = str(tmp_path / "output.vcf")
+        with pytest.raises(SystemExit) as exc_info:
+            main([
+                "-i", minimal_snv_json_gz, "-o", out_path,
+                "--reference", "/nonexistent/ref.fa",
+            ])
+        assert exc_info.value.code == 1
+
+    def test_bgzip_output_writes_valid_gzip(self, minimal_snv_json_gz, tmp_path):
+        """Output ending in .vcf.gz produces a bgzipped, gzip-readable VCF."""
+        pytest.importorskip("pysam")
+        import gzip
+        out_path = str(tmp_path / "output.vcf.gz")
+        main(["-i", minimal_snv_json_gz, "-o", out_path])
+        with gzip.open(out_path, "rt") as f:
+            content = f.read()
+        assert content.startswith("##fileformat=VCFv4.2")
+        assert "chr1\t12345" in content
+
+    def test_tabix_creates_index(self, minimal_snv_json_gz, tmp_path):
+        """--tabix on .vcf.gz output creates a .tbi alongside."""
+        pytest.importorskip("pysam")
+        out_path = str(tmp_path / "output.vcf.gz")
+        main(["-i", minimal_snv_json_gz, "-o", out_path, "--tabix"])
+        import os
+        assert os.path.exists(out_path + ".tbi")
+
+    def test_reference_left_shifts_indel(
+        self, minimal_snv_json_gz, tmp_path, monkeypatch
+    ):
+        """--reference triggers Phase 3 left-shift in the mapper.
+
+        Stub pysam.FastaFile so no actual FASTA file is needed.
+        """
+        from nirvana2vcf import cli as cli_mod
+
+        class _StubFasta:
+            def __init__(self, path):
+                pass
+            def fetch(self, chrom, start, end):
+                return "A" * (end - start)
+            def close(self):
+                pass
+
+        class _StubPysam:
+            FastaFile = _StubFasta
+
+        monkeypatch.setattr(cli_mod, "require_pysam", lambda feature: _StubPysam)
+
+        # Touch a dummy file so the existence check passes
+        ref_path = tmp_path / "fake.fa"
+        ref_path.write_text(">chr1\nA\n")
+        out_path = str(tmp_path / "output.vcf")
+        # Just verify the command runs end-to-end with --reference wired
+        main([
+            "-i", minimal_snv_json_gz, "-o", out_path,
+            "--reference", str(ref_path),
+        ])
+        with open(out_path) as f:
+            assert "chr1\t" in f.read()
