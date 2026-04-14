@@ -1,0 +1,393 @@
+===========================================================================
+CROSS-TOOL COMPARISON: nirvana2vcf vs VEP (Phase 5a)
+===========================================================================
+nirvana2vcf VCF: /Users/zer0/nirvana2vcf/validation/data/output/phase2/HiSeq.10000.default.vcf
+VEP VCF:      /Users/zer0/nirvana2vcf/validation/data/phase5/vep_output.vcf
+Elapsed:      0.8s
+
+VARIANT MATCHING
+---------------------------------------------------------------------------
+  nirvana2vcf variants:      9,965
+  VEP variants:           9,965
+  Shared variants:        9,965
+  nirvana2vcf only:              0
+  VEP only:                   0
+
+TRANSCRIPT MATCHING (within shared variants)
+---------------------------------------------------------------------------
+  Matched (by base ID):   56,123
+  nirvana2vcf only:           1,438
+  VEP only:                2,315
+  Total:                  59,876
+
+PER-FIELD CONCORDANCE (matched transcripts)
+---------------------------------------------------------------------------
+Field                 Agree Disagree J2V-only VEP-only    Total      Pct
+---------------------------------------------------------------------------
+Consequence          55,989      134        0        0   56,123    99.8%
+SYMBOL               52,658    3,465        0        0   56,123    93.8%
+BIOTYPE              56,089       34        0        0   56,123    99.9%
+CANONICAL                 0        0   15,731        0   15,731     0.0%
+SIFT                    549      221       15       88      873    62.9%
+PolyPhen                783        6       15       79      883    88.7%
+HGVSc                10,881   16,963    9,378       46   37,268    29.2%
+HGVSp                 1,455      133        0        1    1,589    91.6%
+EXON                  3,726       66       12       52    3,856    96.6%
+INTRON               32,169    1,249        0        6   33,424    96.2%
+---------------------------------------------------------------------------
+
+NOTES ON EXPECTED DIFFERENCES
+---------------------------------------------------------------------------
+  - PolyPhen: Nirvana uses HVAR model, VEP uses HumDiv → systematic
+    categorical differences are expected (informational only)
+  - SIFT: Score thresholds may differ between Nirvana and VEP versions
+  - Transcript versions: Nirvana bundles Ensembl 91; VEP cache may be
+    newer → transcript sets differ, matched by base ID (no version)
+  - HGVSc: transcript prefix stripped; for `n.` (non-coding) HGVSc on
+    reverse-strand transcripts, allele reverse-complement is tolerated
+    (Nirvana emits genomic orientation; VEP emits transcript strand)
+  - HGVSp: normalised to bare `p.<change>` with URL-decoded `=`
+  - SYMBOL: resolved through HGNC prev/alias map when --hgnc supplied,
+    so Ensembl-91 symbols match their current approved HGNC names
+  - CANONICAL: Nirvana `CANONICAL=YES` is compared against VEP's
+    `MANE_SELECT` (non-empty) — a cross-tool stable preferred-
+    transcript axis; VEP's own CANONICAL uses a different selector
+
+===========================================================================
+DISCORDANT EXAMPLES (first 10 per field)
+===========================================================================
+
+Consequence (134 disagree, 0 J2V-only, 0 VEP-only):
+  1:1007033 C>G NM_001205252
+    nirvana2vcf: downstream_gene_variant
+    VEP:      3_prime_UTR_variant
+  1:1007060 C>T NM_001205252
+    nirvana2vcf: downstream_gene_variant
+    VEP:      3_prime_UTR_variant
+  1:1051657 A>G NM_017891
+    nirvana2vcf: 5_prime_UTR_variant
+    VEP:      upstream_gene_variant
+  1:1051657 A>G NM_001330306
+    nirvana2vcf: 5_prime_UTR_variant
+    VEP:      upstream_gene_variant
+  1:1051711 A>G NM_017891
+    nirvana2vcf: 5_prime_UTR_variant
+    VEP:      upstream_gene_variant
+  1:1051711 A>G NM_001330306
+    nirvana2vcf: 5_prime_UTR_variant
+    VEP:      upstream_gene_variant
+  1:1231392 A>G ENST00000354700
+    nirvana2vcf: splice_region_variant&intron_variant
+    VEP:      splice_donor_region_variant&intron_variant
+  1:1231392 A>G ENST00000467278
+    nirvana2vcf: splice_region_variant&intron_variant&non_coding_transcript_variant
+    VEP:      splice_donor_region_variant&intron_variant&non_coding_transcript_variant
+  1:1231392 A>G ENST00000353662
+    nirvana2vcf: splice_region_variant&intron_variant
+    VEP:      splice_donor_region_variant&intron_variant
+  1:1231392 A>G NM_030649
+    nirvana2vcf: splice_region_variant&intron_variant
+    VEP:      splice_donor_region_variant&intron_variant
+
+SYMBOL (3465 disagree, 0 J2V-only, 0 VEP-only):
+  1:1000580 C>T ENST00000394517
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000580 C>T ENST00000442292
+    nirvana2vcf: AL645608.9
+    VEP:      RP11-54O7.18
+  1:1000580 C>T ENST00000427998
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000580 C>T ENST00000451054
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000580 C>T ENST00000433695
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000580 C>T ENST00000412397
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000580 C>T ENST00000456409
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000958 A>G ENST00000394517
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+  1:1000958 A>G ENST00000442292
+    nirvana2vcf: AL645608.9
+    VEP:      RP11-54O7.18
+  1:1000958 A>G ENST00000427998
+    nirvana2vcf: AL390719.1
+    VEP:      RP11-465B22.3
+
+BIOTYPE (34 disagree, 0 J2V-only, 0 VEP-only):
+  1:3039715 C>T NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3039945 A>C NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040081 G>A NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040191 T>C NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040222 A>G NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040357 A>G NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040454 C>G NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040798 T>C NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3040900 G>C NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+  1:3041210 T>A NR_036215
+    nirvana2vcf: misc_RNA
+    VEP:      miRNA
+
+CANONICAL (0 disagree, 15731 J2V-only, 0 VEP-only):
+  1:1000580 C>T ENST00000442292
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1000580 C>T ENST00000427998
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1000958 A>G ENST00000442292
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1000958 A>G ENST00000427998
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001394 T>C ENST00000442292
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001394 T>C ENST00000427998
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001394 T>C ENST00000453464
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001500 A>T ENST00000442292
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001500 A>T ENST00000427998
+    nirvana2vcf: YES
+    VEP:      (missing)
+  1:1001500 A>T ENST00000453464
+    nirvana2vcf: YES
+    VEP:      (missing)
+
+SIFT (221 disagree, 15 J2V-only, 88 VEP-only):
+  1:1244306 G>A NM_001346116
+    nirvana2vcf: (missing)
+    VEP:      tolerated(0.15)
+  1:1268100 T>C NM_152228
+    nirvana2vcf: (missing)
+    VEP:      deleterious(0)
+  1:1563882 A>G NM_001170686
+    nirvana2vcf: deleterious(0.02)
+    VEP:      (missing)
+  1:1563882 A>G NM_080875
+    nirvana2vcf: deleterious(0.02)
+    VEP:      (missing)
+  1:1563882 A>G NM_001170688
+    nirvana2vcf: deleterious(0.03)
+    VEP:      (missing)
+  1:1563882 A>G NM_001170687
+    nirvana2vcf: deleterious(0.02)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170686
+    nirvana2vcf: deleterious(0)
+    VEP:      (missing)
+  1:1564572 T>G NM_080875
+    nirvana2vcf: deleterious(0)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170688
+    nirvana2vcf: deleterious(0)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170687
+    nirvana2vcf: deleterious(0)
+    VEP:      (missing)
+
+PolyPhen (6 disagree, 15 J2V-only, 79 VEP-only):
+  1:1244306 G>A NM_001346116
+    nirvana2vcf: (missing)
+    VEP:      probably_damaging(0.998)
+  1:1268100 T>C NM_152228
+    nirvana2vcf: (missing)
+    VEP:      probably_damaging(0.974)
+  1:1563882 A>G NM_001170686
+    nirvana2vcf: probably damaging(0.99)
+    VEP:      (missing)
+  1:1563882 A>G NM_080875
+    nirvana2vcf: probably damaging(0.985)
+    VEP:      (missing)
+  1:1563882 A>G NM_001170688
+    nirvana2vcf: probably damaging(0.985)
+    VEP:      (missing)
+  1:1563882 A>G NM_001170687
+    nirvana2vcf: probably damaging(0.985)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170686
+    nirvana2vcf: possibly damaging(0.815)
+    VEP:      (missing)
+  1:1564572 T>G NM_080875
+    nirvana2vcf: probably damaging(0.91)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170688
+    nirvana2vcf: probably damaging(0.915)
+    VEP:      (missing)
+  1:1564572 T>G NM_001170687
+    nirvana2vcf: probably damaging(0.915)
+    VEP:      (missing)
+
+HGVSc (16963 disagree, 9378 J2V-only, 46 VEP-only):
+  1:1000958 A>G ENST00000394517
+    nirvana2vcf: ENST00000394517.2:n.222-252A>G
+    VEP:      ENST00000394517.2:n.222-252T>G
+  1:1000958 A>G ENST00000427998
+    nirvana2vcf: ENST00000427998.1:n.351-252A>G
+    VEP:      ENST00000427998.1:n.351-252T>G
+  1:1000958 A>G ENST00000451054
+    nirvana2vcf: ENST00000451054.1:n.73-371A>G
+    VEP:      ENST00000451054.1:n.73-371T>G
+  1:1000958 A>G ENST00000433695
+    nirvana2vcf: ENST00000433695.1:n.96-252A>G
+    VEP:      ENST00000433695.1:n.96-252T>G
+  1:1000958 A>G ENST00000412397
+    nirvana2vcf: ENST00000412397.2:n.626+103A>G
+    VEP:      ENST00000412397.2:n.626+103T>G
+  1:1000958 A>G ENST00000456409
+    nirvana2vcf: ENST00000456409.1:n.124-252A>G
+    VEP:      ENST00000456409.1:n.124-252T>G
+  1:1001394 T>C ENST00000412397
+    nirvana2vcf: ENST00000412397.2:n.626+539T>C
+    VEP:      ENST00000412397.2:n.626+539G>C
+  1:1002064 G>C ENST00000412397
+    nirvana2vcf: ENST00000412397.2:n.707+17G>C
+    VEP:      ENST00000412397.2:n.707+17A>C
+  1:1002464 A>T ENST00000412397
+    nirvana2vcf: ENST00000412397.2:n.707+417A>T
+    VEP:      (missing)
+  1:1002494 A>T ENST00000412397
+    nirvana2vcf: ENST00000412397.2:n.707+447A>T
+    VEP:      ENST00000412397.2:n.707+447G>T
+
+HGVSp (133 disagree, 0 J2V-only, 1 VEP-only):
+  1:1563882 A>G NM_001170686
+    nirvana2vcf: NP_001164157.1:p.(Val772Gly)
+    VEP:      NP_001164157.3:p.Val657Gly
+  1:1563882 A>G NM_080875
+    nirvana2vcf: NP_543151.2:p.(Val776Gly)
+    VEP:      NP_543151.4:p.Val661Gly
+  1:1563882 A>G NM_001170688
+    nirvana2vcf: NP_001164159.1:p.(Val711Gly)
+    VEP:      NP_001164159.2:p.Val596Gly
+  1:1563882 A>G NM_001170687
+    nirvana2vcf: NP_001164158.1:p.(Val762Gly)
+    VEP:      NP_001164158.3:p.Val661Gly
+  1:1563939 G>A NM_001170686
+    nirvana2vcf: NM_001170686.1:c.2372=(p.(His791=))
+    VEP:      NP_001164157.3:p.His676%3D
+  1:1563939 G>A NM_080875
+    nirvana2vcf: NM_080875.2:c.2384=(p.(His795=))
+    VEP:      NP_543151.4:p.His680%3D
+  1:1563939 G>A NM_001170688
+    nirvana2vcf: NM_001170688.1:c.2189=(p.(His730=))
+    VEP:      NP_001164159.2:p.His615%3D
+  1:1563939 G>A NM_001170687
+    nirvana2vcf: NM_001170687.1:c.2342=(p.(His781=))
+    VEP:      NP_001164158.3:p.His680%3D
+  1:1564572 T>G NM_001170686
+    nirvana2vcf: NP_001164157.1:p.(Cys865Trp)
+    VEP:      NP_001164157.3:p.Cys750Trp
+  1:1564572 T>G NM_080875
+    nirvana2vcf: NP_543151.2:p.(Cys869Trp)
+    VEP:      NP_543151.4:p.Cys754Trp
+
+EXON (66 disagree, 12 J2V-only, 52 VEP-only):
+  1:1007033 C>G NM_001205252
+    nirvana2vcf: (missing)
+    VEP:      2/2
+  1:1007060 C>T NM_001205252
+    nirvana2vcf: (missing)
+    VEP:      2/2
+  1:1051657 A>G NM_017891
+    nirvana2vcf: 1/10
+    VEP:      (missing)
+  1:1051657 A>G NM_001330306
+    nirvana2vcf: 1/12
+    VEP:      (missing)
+  1:1051711 A>G NM_017891
+    nirvana2vcf: 1/10
+    VEP:      (missing)
+  1:1051711 A>G NM_001330306
+    nirvana2vcf: 1/12
+    VEP:      (missing)
+  1:1284791 A>G NM_004421
+    nirvana2vcf: (missing)
+    VEP:      1/15
+  1:1284791 A>G NM_001330311
+    nirvana2vcf: (missing)
+    VEP:      1/15
+  1:1570928 G>C NM_033486
+    nirvana2vcf: (missing)
+    VEP:      18/18
+  1:1570928 G>C NM_033487
+    nirvana2vcf: (missing)
+    VEP:      16/16
+
+INTRON (1249 disagree, 0 J2V-only, 6 VEP-only):
+  1:1571576 A>C NM_033486
+    nirvana2vcf: 17/18
+    VEP:      16/17
+  1:1571576 A>C NM_033487
+    nirvana2vcf: 16/17
+    VEP:      14/15
+  1:1571576 A>C NM_033489
+    nirvana2vcf: 18/19
+    VEP:      17/18
+  1:1571969 T>C NM_033486
+    nirvana2vcf: 16/18
+    VEP:      15/17
+  1:1571969 T>C NM_033487
+    nirvana2vcf: 15/17
+    VEP:      13/15
+  1:1571969 T>C NM_033489
+    nirvana2vcf: 17/19
+    VEP:      16/18
+  1:1572657 C>A NM_033486
+    nirvana2vcf: 13/18
+    VEP:      12/17
+  1:1572657 C>A NM_033487
+    nirvana2vcf: 12/17
+    VEP:      10/15
+  1:1572657 C>A NM_033489
+    nirvana2vcf: 14/19
+    VEP:      13/18
+  1:1572704 A>G NM_033486
+    nirvana2vcf: 13/18
+    VEP:      12/17
+
+===========================================================================
+CONCORDANCE SUMMARY
+===========================================================================
+CONCORDANCE: Consequence 55989 56123 99.8
+CONCORDANCE: SYMBOL 52658 56123 93.8
+CONCORDANCE: BIOTYPE 56089 56123 99.9
+CONCORDANCE: CANONICAL 0 15731 0.0
+CONCORDANCE: SIFT 549 873 62.9
+CONCORDANCE: PolyPhen 783 883 88.7
+CONCORDANCE: HGVSc 10881 37268 29.2
+CONCORDANCE: HGVSp 1455 1589 91.6
+CONCORDANCE: EXON 3726 3856 96.6
+CONCORDANCE: INTRON 32169 33424 96.2
+===========================================================================

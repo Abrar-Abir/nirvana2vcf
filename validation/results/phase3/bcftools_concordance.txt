@@ -1,0 +1,31 @@
+Original VCF: validation/data/HiSeq.10000.vcf.gz
+Original site tuples: 9965
+
+=== default ===
+  nirvana2vcf site tuples: 9965
+  Shared:        9965
+  Only original: 0
+  Only nirvana2vcf: 0
+  Result: PASS
+
+=== raw ===
+  nirvana2vcf site tuples: 9965
+  Shared:        9965
+  Only original: 0
+  Only nirvana2vcf: 0
+  Result: PASS
+
+=== decomposed ===
+  nirvana2vcf site tuples: 9965
+  Shared:        9965
+  Only original: 0
+  Only nirvana2vcf: 0
+  Result: PASS
+
+=== no_samples ===
+  nirvana2vcf site tuples: 9965
+  Shared:        9965
+  Only original: 0
+  Only nirvana2vcf: 0
+  Result: PASS
+

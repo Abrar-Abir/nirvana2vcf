@@ -1,0 +1,44 @@
+[project]
+name = "nirvana2vcf"
+version = "0.1.0"
+description = "Convert Nirvana/Illumina Connected Annotations JSON to VCF format"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "Abrar Abir" }]
+keywords = ["bioinformatics", "vcf", "nirvana", "annotation", "genomics", "variant"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = ["orjson>=3.9"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Homepage = "https://github.com/Abrar-Abir/nirvana2vcf"
+Repository = "https://github.com/Abrar-Abir/nirvana2vcf"
+Issues = "https://github.com/Abrar-Abir/nirvana2vcf/issues"
+
+[project.scripts]
+nirvana2vcf = "nirvana2vcf.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["nirvana2vcf*"]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

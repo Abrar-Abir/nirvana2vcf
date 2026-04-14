@@ -1,0 +1,6 @@
+Reading nirvana2vcf and reference by chromosome (merge)...
+  [nirvana2vcf] chr1: 9,965 tuples
+  [reference] chr1: 9,965 tuples
+  >> chr1: shared=9,965 only_j2v=0 only_ref=0 (100.00%)
+
+Done in 0.0s

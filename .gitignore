@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Validation data (large files — not tracked)
+validation/data/
+validation/refs/
+
+# Claude Code
+.claude/
+
+# SnpEff summary files snpEff writes alongside its output.
+# Kept narrow because APFS is case-insensitive: a broad `snpEff_*` rule
+# also masks our own `snpeff_*.txt` / `snpeff_*.log` reports under validation/.
+snpEff_genes.txt
+snpEff_summary.html
+
+# OS
+.DS_Store
+Thumbs.db

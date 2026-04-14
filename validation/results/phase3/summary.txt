@@ -1,0 +1,16 @@
+=============================================
+  Phase 3: Position Concordance Summary
+=============================================
+
+Original VCF: validation/data/HiSeq.10000.vcf.gz
+Original site tuples: 9965
+
+Mode            bcftools+comm   Python         
+----            -------------   ------         
+default         PASS            PASS           
+raw             PASS            PASS           
+decomposed      PASS            PASS           
+no_samples      PASS            PASS           
+
+Overall: PASS (100% concordance across all modes)
+=============================================

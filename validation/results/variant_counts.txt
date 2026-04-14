@@ -1,0 +1,10 @@
+Reference count (Phase 1 smoke VCF): 9965
+
+Mode                                       Variants     Match?
+----                                       --------     ------
+HiSeq.10000.default                            9965      exact
+HiSeq.10000.raw                                9965      exact
+HiSeq.10000.decomposed                         9965 yes (>= ref)
+HiSeq.10000.no_samples                         9965      exact
+HiSeq.10000.csq_only                           9965      exact
+

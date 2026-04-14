@@ -1,0 +1,66 @@
+===========================================================================
+ANNOTATION CONCORDANCE REPORT (Phase 4)
+===========================================================================
+JSON file:  validation/data/output/HiSeq.10000.json.gz
+VCF file:   validation/data/output/phase2/HiSeq.10000.default.vcf
+Mode:       default
+Positions:  9,965
+Elapsed:    0.4s
+
+FIELD RESULTS
+---------------------------------------------------------------------------
+Field                     Coverage  Concord  Discord   JSON    VCF   Result
+---------------------------------------------------------------------------
+CytoBand                     9,965    9,965        0      0      0     PASS
+SVEND                            0        -        -      -      -      N/A
+SVLEN                            0        -        -      -      -      N/A
+CIPOS                            0        -        -      -      -      N/A
+CIEND                            0        -        -      -      -      N/A
+phyloP                       9,473    9,473        0      0      0     PASS
+DANN                         7,212    7,212        0      0      0     PASS
+GERP                         9,965    9,965        0      0      0     PASS
+REVEL                           49       49        0      0      0     PASS
+SVTYPE                           0        -        -      -      -      N/A
+gnomAD_AF                      162      162        0      0      0     PASS
+gnomAD_AC                      162      162        0      0      0     PASS
+gnomAD_AN                      162      162        0      0      0     PASS
+gnomAD_AFR_AF                  162      162        0      0      0     PASS
+gnomAD_AMR_AF                  162      162        0      0      0     PASS
+gnomAD_EUR_AF                  162      162        0      0      0     PASS
+gnomAD_EAS_AF                  162      162        0      0      0     PASS
+gnomAD_SAS_AF                   19       19        0      0      0     PASS
+oneKG_AF                        41       41        0      0      0     PASS
+oneKG_AFR_AF                    41       41        0      0      0     PASS
+oneKG_AMR_AF                    41       41        0      0      0     PASS
+oneKG_EUR_AF                    41       41        0      0      0     PASS
+oneKG_EAS_AF                    41       41        0      0      0     PASS
+oneKG_SAS_AF                    41       41        0      0      0     PASS
+TOPMed_AF                       98       98        0      0      0     PASS
+CLINVAR_ID                      24       24        0      0      0     PASS
+CLINVAR_SIG                     24       24        0      0      0     PASS
+CLINVAR_REVSTAT                 24       24        0      0      0     PASS
+SpliceAI_AG_SCORE                0        -        -      -      -      N/A
+SpliceAI_AG_DIST                 0        -        -      -      -      N/A
+SpliceAI_AL_SCORE                0        -        -      -      -      N/A
+SpliceAI_AL_DIST                 0        -        -      -      -      N/A
+SpliceAI_DG_SCORE                0        -        -      -      -      N/A
+SpliceAI_DG_DIST                 0        -        -      -      -      N/A
+SpliceAI_DL_SCORE                0        -        -      -      -      N/A
+SpliceAI_DL_DIST                 0        -        -      -      -      N/A
+ID                             610      610        0      0      0     PASS
+CSQ                          6,818    6,818        0      0      0     PASS
+---------------------------------------------------------------------------
+
+COVERAGE SUMMARY
+---------------------------------------------------------------------------
+  Population frequencies         gnomAD_AF=162, gnomAD_AC=162, gnomAD_AN=162, gnomAD_AFR_AF=162, gnomAD_AMR_AF=162, gnomAD_EUR_AF=162, gnomAD_EAS_AF=162, gnomAD_SAS_AF=19, oneKG_AF=41, oneKG_AFR_AF=41, oneKG_AMR_AF=41, oneKG_EUR_AF=41, oneKG_EAS_AF=41, oneKG_SAS_AF=41, TOPMed_AF=98
+  Pathogenicity scores           phyloP=9,473, DANN=7,212, GERP=9,965, REVEL=49
+  ClinVar                        CLINVAR_ID=24, CLINVAR_SIG=24, CLINVAR_REVSTAT=24
+  SpliceAI                       no data
+  Structural variants            no data
+  Position-level                 CytoBand=9,965
+  Other                          ID=610, CSQ=6,818
+
+===========================================================================
+RESULT: PASS  (100% concordance, 45,661 field values verified across 25 fields)
+===========================================================================

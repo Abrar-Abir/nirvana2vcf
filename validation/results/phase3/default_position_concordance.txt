@@ -1,0 +1,25 @@
+============================================================
+POSITION-LEVEL CONCORDANCE REPORT
+============================================================
+nirvana2vcf file:  validation/data/output/phase2/HiSeq.10000.default.vcf
+Reference file: validation/data/HiSeq.10000.vcf.gz
+
+VARIANT COUNTS
+  nirvana2vcf VCF rows:               9,965
+  Reference VCF rows:              9,965
+  nirvana2vcf variant tuples:         9,965  (after multi-allelic expansion)
+  Reference variant tuples:        9,965  (after multi-allelic expansion)
+
+SET COMPARISON
+  Shared (in both):           9,965  (100.00%)
+  Only in nirvana2vcf:               0  (0.00%)
+  Only in reference:              0  (0.00%)
+  Jaccard similarity:      1.000000
+
+PER-CHROMOSOME BREAKDOWN
+  CHROM        nirvana2vcf    reference       shared     only_j2v     only_ref   overlap%
+  chr1            9,965        9,965        9,965            0            0    100.00%
+
+------------------------------------------------------------
+RESULT: PASS  (overlap = 100.00% of nirvana2vcf tuples)
+------------------------------------------------------------

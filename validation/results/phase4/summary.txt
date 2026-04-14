@@ -1,0 +1,27 @@
+=============================================
+  Phase 4: Annotation Concordance Summary
+=============================================
+
+Nirvana JSON: validation/data/output/HiSeq.10000.json.gz
+
+Note: decomposed mode skipped (identical to default for all-SNP data)
+
+Mode            Result         
+----            ------         
+default         PASS           
+raw             PASS           
+no_samples      PASS           
+csq_only        PASS           
+
+Coverage (from default mode):
+  Population frequencies         gnomAD_AF=162, gnomAD_AC=162, gnomAD_AN=162, gnomAD_AFR_AF=162, gnomAD_AMR_AF=162, gnomAD_EUR_AF=162, gnomAD_EAS_AF=162, gnomAD_SAS_AF=19, oneKG_AF=41, oneKG_AFR_AF=41, oneKG_AMR_AF=41, oneKG_EUR_AF=41, oneKG_EAS_AF=41, oneKG_SAS_AF=41, TOPMed_AF=98
+  Pathogenicity scores           phyloP=9,473, DANN=7,212, GERP=9,965, REVEL=49
+  ClinVar                        CLINVAR_ID=24, CLINVAR_SIG=24, CLINVAR_REVSTAT=24
+  SpliceAI                       no data
+  Structural variants            no data
+  Position-level                 CytoBand=9,965
+  Other                          ID=610, CSQ=6,818
+
+
+Overall: PASS (100% concordance across all modes)
+=============================================

@@ -1,0 +1,38 @@
+=============================================
+  Phase 5: Cross-Tool Comparison Summary
+=============================================
+
+nirvana2vcf VCF: /Users/zer0/nirvana2vcf/validation/data/output/phase2/HiSeq.10000.default.vcf
+Original VCF: /Users/zer0/nirvana2vcf/validation/data/HiSeq.10000.vcf.gz
+
+Sub-Phase            Result         
+---------            ------         
+5a: VEP              DONE           
+5b: SnpEff           DONE           
+5c: bcftools         DONE           
+
+--- vep_comparison ---
+  CONCORDANCE: Consequence 55989 56123 99.8
+  CONCORDANCE: SYMBOL 52658 56123 93.8
+  CONCORDANCE: BIOTYPE 56089 56123 99.9
+  CONCORDANCE: CANONICAL 0 15731 0.0
+  CONCORDANCE: SIFT 549 873 62.9
+  CONCORDANCE: PolyPhen 783 883 88.7
+  CONCORDANCE: HGVSc 10881 37268 29.2
+  CONCORDANCE: HGVSp 1455 1589 91.6
+  CONCORDANCE: EXON 3726 3856 96.6
+  CONCORDANCE: INTRON 32169 33424 96.2
+
+--- snpeff_comparison ---
+  CONCORDANCE: Consequence 39687 41255 96.2
+  CONCORDANCE: Gene_symbol 37570 41255 91.1
+  CONCORDANCE: ClinVar_sig 1 26 3.8
+  CONCORDANCE: ClinVar_revstat 0 26 0.0
+
+--- gnomad_dbsnp_comparison ---
+  CONCORDANCE: gnomAD_AF 149 162 92.0
+  CONCORDANCE: dbSNP_rsID 610 610 100.0
+  CONCORDANCE: gnomAD_AF_correlation 1.000000
+
+Overall: PASS (3/3 sub-phases completed)
+=============================================

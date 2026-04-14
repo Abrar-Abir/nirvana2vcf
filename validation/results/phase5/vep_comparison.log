@@ -1,0 +1,4 @@
+Loaded 102,949 HGNC alias entries from /Users/zer0/nirvana2vcf/validation/refs/hgnc_complete_set.txt
+nirvana2vcf CSQ fields (19): Allele, Consequence, SYMBOL, Gene, Feature_type, Feature, BIOTYPE, EXON, INTRON, HGVSc, HGVSp, cDNA_position, CDS_position, Protein_position, Amino_acids, Codons, CANONICAL, PolyPhen, SIFT
+VEP CSQ fields (33): Allele, Consequence, IMPACT, SYMBOL, Gene, Feature_type, Feature, BIOTYPE, EXON, INTRON, HGVSc, HGVSp, cDNA_position, CDS_position, Protein_position, Amino_acids, Codons, Existing_variation, DISTANCE, STRAND, FLAGS, SYMBOL_SOURCE, HGNC_ID, CANONICAL, MANE, MANE_SELECT, MANE_PLUS_CLINICAL, REFSEQ_MATCH, SOURCE, REFSEQ_OFFSET, SIFT, PolyPhen, HGVS_OFFSET
+Report written to /Users/zer0/nirvana2vcf/validation/results/phase5/vep_comparison.txt

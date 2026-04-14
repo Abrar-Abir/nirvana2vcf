@@ -1,0 +1,88 @@
+===========================================================================
+CROSS-TOOL COMPARISON: nirvana2vcf vs bcftools-direct (Phase 5c)
+===========================================================================
+nirvana2vcf VCF:       /Users/zer0/nirvana2vcf/validation/data/output/phase2/HiSeq.10000.default.vcf
+bcftools-annotated: /Users/zer0/nirvana2vcf/validation/data/phase5/j2v_gnomad_annotated.vcf
+Elapsed:            0.1s
+
+VARIANT MATCHING
+---------------------------------------------------------------------------
+  nirvana2vcf variants:      9,965
+  Annotated variants:     9,965
+  Shared variants:        9,965
+  nirvana2vcf only:              0
+  Annotated only:             0
+
+gnomAD AF COMPARISON
+---------------------------------------------------------------------------
+  Tolerance:             0.001
+  Both present:               149
+  Within tolerance:           149
+  Outside tolerance:            0
+  Max absolute diff:     0.000137
+  Pearson correlation:   1.000000
+  nirvana2vcf only:               13
+  Direct only:                  0
+  Both missing:             9,803
+
+dbSNP rsID COMPARISON
+---------------------------------------------------------------------------
+  Agree:              610
+  Disagree:             0
+  nirvana2vcf only:        0
+  Direct only:          0
+  Both missing:     9,355
+  Total compared:     610
+  Concordance:     100.0%
+
+NOTES ON EXPECTED DIFFERENCES
+---------------------------------------------------------------------------
+  - Nirvana bundles gnomAD v2.1; direct download is v2.1.1 (minor patch)
+  - Multi-allelic sites: bcftools may report different AF for multi-allelic
+    variants depending on decomposition / join handling
+  - dbSNP: version drift between Nirvana's bundled dbSNP and the downloaded
+    version may add or remove rsIDs
+
+===========================================================================
+DISCORDANT EXAMPLES (first 10 per field)
+===========================================================================
+
+gnomAD_AF (0 disagree, 13 J2V-only, 0 direct-only):
+  1:1510588 C>T
+    nirvana2vcf: 0
+    direct:   (missing)
+  1:1634696 G>A
+    nirvana2vcf: 4.2e-05
+    direct:   (missing)
+  1:1637159 C>T
+    nirvana2vcf: 2.5e-05
+    direct:   (missing)
+  1:1870249 C>T
+    nirvana2vcf: 1.5e-05
+    direct:   (missing)
+  1:1903439 C>T
+    nirvana2vcf: 4e-06
+    direct:   (missing)
+  1:2573370 G>A
+    nirvana2vcf: 1.8e-05
+    direct:   (missing)
+  1:2575851 G>A
+    nirvana2vcf: 7e-06
+    direct:   (missing)
+  1:3647643 C>T
+    nirvana2vcf: 3.7e-05
+    direct:   (missing)
+  1:865499 C>T
+    nirvana2vcf: 1.4e-05
+    direct:   (missing)
+  1:876680 C>T
+    nirvana2vcf: 1.5e-05
+    direct:   (missing)
+
+===========================================================================
+CONCORDANCE SUMMARY
+===========================================================================
+CONCORDANCE: gnomAD_AF 149 162 92.0
+CONCORDANCE: dbSNP_rsID 610 610 100.0
+CONCORDANCE: gnomAD_AF_correlation 1.000000
+===========================================================================

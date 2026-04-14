@@ -1,0 +1,188 @@
+===========================================================================
+CROSS-TOOL COMPARISON: nirvana2vcf vs SnpEff/SnpSift (Phase 5b)
+===========================================================================
+nirvana2vcf VCF:   /Users/zer0/nirvana2vcf/validation/data/output/phase2/HiSeq.10000.default.vcf
+SnpEff VCF:     /Users/zer0/nirvana2vcf/validation/data/phase5/snpeff_clinvar.vcf
+Elapsed:        0.4s
+
+VARIANT MATCHING
+---------------------------------------------------------------------------
+  nirvana2vcf variants:      9,965
+  SnpEff variants:        9,965
+  Shared variants:        9,965
+  nirvana2vcf only:              0
+  SnpEff only:                0
+
+TRANSCRIPT MATCHING (within shared variants)
+---------------------------------------------------------------------------
+  Matched (by base ID):   41,255
+  nirvana2vcf only:          16,306
+  SnpEff only:             4,263
+  Total:                  61,824
+
+PER-FIELD CONCORDANCE
+---------------------------------------------------------------------------
+Field                   Agree Disagree J2V-only SnpE-only    Total      Pct
+---------------------------------------------------------------------------
+Consequence            39,687    1,568        0         0   41,255    96.2%
+Gene_symbol            37,570    3,685        0         0   41,255    91.1%
+ClinVar_sig                 1        0       23         2       26     3.8%
+ClinVar_revstat             0        1       23         2       26     0.0%
+---------------------------------------------------------------------------
+
+NOTES ON EXPECTED DIFFERENCES
+---------------------------------------------------------------------------
+  - Consequence: SnpEff uses 'intergenic_region' where Nirvana uses
+    'intergenic_variant' — normalised before comparison
+  - Consequence: `non_coding_transcript_variant` is dropped when it
+    co-occurs with a more specific SO term on the same transcript —
+    SnpEff omits this modifier, Nirvana appends it. Standalone
+    `non_coding_transcript_variant` calls are preserved.
+  - ClinVar: Version drift between Nirvana's bundled ClinVar and the
+    downloaded ClinVar VCF may cause classification differences
+  - Gene symbol: resolved through HGNC prev_symbol/alias_symbol map
+    when --hgnc supplied, else compared by exact match (expected
+    ~3-5K version-drift mismatches without the map).
+  - Transcript sets: SnpEff GRCh37.75 vs Nirvana Ensembl 91 — different
+    transcript databases cause different annotation scopes
+
+===========================================================================
+DISCORDANT EXAMPLES (first 10 per field)
+===========================================================================
+
+Consequence (1568 disagree, 0 J2V-only, 0 SnpEff-only):
+  1:1021403 A>G ENST00000379325
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1021403 A>G ENST00000477196
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1021403 A>G ENST00000467751
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1022047 A>G ENST00000379325
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1022047 A>G ENST00000477196
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1022047 A>G ENST00000467751
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1023862 C>T ENST00000379325
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1023862 C>T ENST00000477196
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1023862 C>T ENST00000467751
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+  1:1025668 G>A ENST00000379325
+    nirvana2vcf: NMD_transcript_variant&intron_variant
+    SnpEff:   intron_variant
+
+Gene_symbol (3685 disagree, 0 J2V-only, 0 SnpEff-only):
+  1:1000580 C>T ENST00000412397
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000580 C>T ENST00000442292
+    nirvana2vcf: AL645608.9
+    SnpEff:   RP11-54O7.18
+  1:1000580 C>T ENST00000456409
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000580 C>T ENST00000433695
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000580 C>T ENST00000394517
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000580 C>T ENST00000451054
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000580 C>T ENST00000427998
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000958 A>G ENST00000412397
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+  1:1000958 A>G ENST00000442292
+    nirvana2vcf: AL645608.9
+    SnpEff:   RP11-54O7.18
+  1:1000958 A>G ENST00000456409
+    nirvana2vcf: AL390719.1
+    SnpEff:   RP11-465B22.3
+
+ClinVar_sig (0 disagree, 23 J2V-only, 2 SnpEff-only):
+  1:1244306 G>A
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:1268888 A>G
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:1637159 C>T
+    nirvana2vcf: (missing)
+    SnpEff:   uncertain significance
+  1:1638954 T>C
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:1643745 C>A
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:2235430 C>G
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:2235493 C>T
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+  1:2237604 G>C
+    nirvana2vcf: likely benign&uncertain significance
+    SnpEff:   (missing)
+  1:2238243 G>T
+    nirvana2vcf: likely benign
+    SnpEff:   (missing)
+  1:2575725 C>T
+    nirvana2vcf: uncertain significance
+    SnpEff:   (missing)
+
+ClinVar_revstat (1 disagree, 23 J2V-only, 2 SnpEff-only):
+  1:1244306 G>A
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+  1:1268888 A>G
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter&criteria provided, single...
+    SnpEff:   (missing)
+  1:1637159 C>T
+    nirvana2vcf: (missing)
+    SnpEff:   criteria provided, single submitter
+  1:1638954 T>C
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+  1:1643745 C>A
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+  1:2235430 C>G
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+  1:2235493 C>T
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter&criteria provided, multip...
+    SnpEff:   (missing)
+  1:2237604 G>C
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter&criteria provided, confli...
+    SnpEff:   (missing)
+  1:2238243 G>T
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+  1:2575725 C>T
+    nirvana2vcf: criteria provided, single submitter&criteria provided, single submitter
+    SnpEff:   (missing)
+
+===========================================================================
+CONCORDANCE SUMMARY
+===========================================================================
+CONCORDANCE: Consequence 39687 41255 96.2
+CONCORDANCE: Gene_symbol 37570 41255 91.1
+CONCORDANCE: ClinVar_sig 1 26 3.8
+CONCORDANCE: ClinVar_revstat 0 26 0.0
+===========================================================================

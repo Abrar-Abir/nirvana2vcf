@@ -1,0 +1,20 @@
+=== HiSeq.10000.default ===
+INFO keys: all declared
+FORMAT keys: all declared
+
+=== HiSeq.10000.raw ===
+INFO keys: all declared
+FORMAT keys: all declared
+
+=== HiSeq.10000.decomposed ===
+INFO keys: all declared
+FORMAT keys: all declared
+
+=== HiSeq.10000.no_samples ===
+INFO keys: all declared
+FORMAT keys: N/A (no samples)
+
+=== HiSeq.10000.csq_only ===
+INFO keys: all declared
+FORMAT keys: all declared
+

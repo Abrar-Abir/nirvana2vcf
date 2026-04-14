@@ -1,0 +1,55 @@
+=== HiSeq.10000.default ===
+The header tag 'reference' not present. (Not required but highly recommended.)
+The header tag 'contig' not present for CHROM=chr1. (Not required but highly recommended.)
+FILTER field at chr1:109 ..  The filter(s) [FDRtranche2.00to10.00+] not listed in the header.
+FILTER field at chr1:250 ..  The filter(s) [DPFilter,HARD_TO_VALIDATE,LowQual] not listed in the header.
+FILTER field at chr1:5074 ..  The filter(s) [FDRtranche2.00to10.00] not listed in the header.
+FILTER field at chr1:6358 ..  The filter(s) [FDRtranche0.10to1.00] not listed in the header.
+FILTER field at chr1:10108 ..  The filter(s) [SnpCluster] not listed in the header.
+FILTER field at chr1:10410 ..  The filter(s) [FDRtranche1.00to2.00] not listed in the header.
+FILTER field at chr1:73690 ..  The filter(s) [Indel] not listed in the header.
+
+=== HiSeq.10000.raw ===
+The header tag 'reference' not present. (Not required but highly recommended.)
+The header tag 'contig' not present for CHROM=chr1. (Not required but highly recommended.)
+FILTER field at chr1:109 ..  The filter(s) [FDRtranche2.00to10.00+] not listed in the header.
+FILTER field at chr1:250 ..  The filter(s) [DPFilter,HARD_TO_VALIDATE,LowQual] not listed in the header.
+FILTER field at chr1:5074 ..  The filter(s) [FDRtranche2.00to10.00] not listed in the header.
+FILTER field at chr1:6358 ..  The filter(s) [FDRtranche0.10to1.00] not listed in the header.
+FILTER field at chr1:10108 ..  The filter(s) [SnpCluster] not listed in the header.
+FILTER field at chr1:10410 ..  The filter(s) [FDRtranche1.00to2.00] not listed in the header.
+FILTER field at chr1:73690 ..  The filter(s) [Indel] not listed in the header.
+
+=== HiSeq.10000.decomposed ===
+The header tag 'reference' not present. (Not required but highly recommended.)
+The header tag 'contig' not present for CHROM=chr1. (Not required but highly recommended.)
+FILTER field at chr1:109 ..  The filter(s) [FDRtranche2.00to10.00+] not listed in the header.
+FILTER field at chr1:250 ..  The filter(s) [DPFilter,HARD_TO_VALIDATE,LowQual] not listed in the header.
+FILTER field at chr1:5074 ..  The filter(s) [FDRtranche2.00to10.00] not listed in the header.
+FILTER field at chr1:6358 ..  The filter(s) [FDRtranche0.10to1.00] not listed in the header.
+FILTER field at chr1:10108 ..  The filter(s) [SnpCluster] not listed in the header.
+FILTER field at chr1:10410 ..  The filter(s) [FDRtranche1.00to2.00] not listed in the header.
+FILTER field at chr1:73690 ..  The filter(s) [Indel] not listed in the header.
+
+=== HiSeq.10000.no_samples ===
+The header tag 'reference' not present. (Not required but highly recommended.)
+The header tag 'contig' not present for CHROM=chr1. (Not required but highly recommended.)
+FILTER field at chr1:109 ..  The filter(s) [FDRtranche2.00to10.00+] not listed in the header.
+FILTER field at chr1:250 ..  The filter(s) [DPFilter,HARD_TO_VALIDATE,LowQual] not listed in the header.
+FILTER field at chr1:5074 ..  The filter(s) [FDRtranche2.00to10.00] not listed in the header.
+FILTER field at chr1:6358 ..  The filter(s) [FDRtranche0.10to1.00] not listed in the header.
+FILTER field at chr1:10108 ..  The filter(s) [SnpCluster] not listed in the header.
+FILTER field at chr1:10410 ..  The filter(s) [FDRtranche1.00to2.00] not listed in the header.
+FILTER field at chr1:73690 ..  The filter(s) [Indel] not listed in the header.
+
+=== HiSeq.10000.csq_only ===
+The header tag 'reference' not present. (Not required but highly recommended.)
+The header tag 'contig' not present for CHROM=chr1. (Not required but highly recommended.)
+FILTER field at chr1:109 ..  The filter(s) [FDRtranche2.00to10.00+] not listed in the header.
+FILTER field at chr1:250 ..  The filter(s) [DPFilter,HARD_TO_VALIDATE,LowQual] not listed in the header.
+FILTER field at chr1:5074 ..  The filter(s) [FDRtranche2.00to10.00] not listed in the header.
+FILTER field at chr1:6358 ..  The filter(s) [FDRtranche0.10to1.00] not listed in the header.
+FILTER field at chr1:10108 ..  The filter(s) [SnpCluster] not listed in the header.
+FILTER field at chr1:10410 ..  The filter(s) [FDRtranche1.00to2.00] not listed in the header.
+FILTER field at chr1:73690 ..  The filter(s) [Indel] not listed in the header.
+
