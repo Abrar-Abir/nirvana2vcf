@@ -2,8 +2,51 @@
 
 import gzip
 import json
+import os
+import ssl
+import urllib.request
+from pathlib import Path
 
 import pytest
+
+
+# ============================================================
+# Real-data fixture
+# ============================================================
+
+_REAL_DATA_DIR = Path(__file__).parent / "data" / "real"
+_HISEQ_VCF_URL = (
+    "https://raw.githubusercontent.com/Illumina/NirvanaDocumentation"
+    "/master/static/files/HiSeq.10000.vcf.gz"
+)
+_HISEQ_JSON_URL = (
+    "https://raw.githubusercontent.com/Illumina/NirvanaDocumentation"
+    "/master/static/files/HiSeq.10000.json.gz"
+)
+
+
+def _download(url: str, dest: Path) -> None:
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    with urllib.request.urlopen(url, context=ctx) as resp, open(dest, "wb") as out:
+        out.write(resp.read())
+
+
+@pytest.fixture(scope="session")
+def hiseq_pair():
+    """Download (once) and return (vcf_path, json_path) for the HiSeq.10000 dataset."""
+    _REAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    vcf_path = _REAL_DATA_DIR / "HiSeq.10000.vcf.gz"
+    json_path = _REAL_DATA_DIR / "HiSeq.10000.json.gz"
+    try:
+        if not vcf_path.exists():
+            _download(_HISEQ_VCF_URL, vcf_path)
+        if not json_path.exists():
+            _download(_HISEQ_JSON_URL, json_path)
+    except Exception as exc:
+        pytest.skip(f"Network unavailable — cannot download HiSeq.10000 files: {exc}")
+    return str(vcf_path), str(json_path)
 
 
 # ============================================================
